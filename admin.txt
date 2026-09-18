@@ -1,0 +1,14 @@
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import {getFirestore,collection,onSnapshot,doc,updateDoc,addDoc} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+const firebaseConfig={apiKey:"PASTE_YOUR_FIREBASE_API_KEY",authDomain:"PASTE_YOUR_PROJECT.firebaseapp.com",projectId:"PASTE_YOUR_PROJECT_ID",storageBucket:"PASTE_YOUR_PROJECT.appspot.com",messagingSenderId:"PASTE_YOUR_SENDER_ID",appId:"PASTE_YOUR_APP_ID"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const teams=collection(db,"teams");
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+onAuthStateChanged(auth,user=>{loginBox.style.display=user?"none":"block";dash.style.display=user?"block":"none";if(user)listen()});
+loginForm.addEventListener("submit",async e=>{e.preventDefault();try{await signInWithEmailAndPassword(auth,email.value,password.value)}catch(x){alert("Login failed: "+x.message)}});
+logout.onclick=()=>signOut(auth);
+let teamCache=[];
+function listen(){onSnapshot(teams,s=>{teamCache=s.docs.map(d=>({id:d.id,...d.data()}));scoreTeam.innerHTML=teamCache.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join("");adminTeams.innerHTML=teamCache.map(t=>`<div class="adminrow"><b>${esc(t.name)}</b><span>${t.points||0} pts • ${t.kills||0} kills</span></div>`).join("")})}
+saveScore.onclick=async()=>{if(!scoreTeam.value)return;await updateDoc(doc(db,"teams",scoreTeam.value),{points:Number(points.value||0),kills:Number(kills.value||0),status:teamStatus.value});alert("Score updated live!")};
+addMatch.onclick=async()=>{await addDoc(collection(db,"matches"),{name:matchName.value,time:matchTime.value,map:matchMap.value,mode:matchMode.value,order:Date.now()});alert("Match published live!");matchName.value=matchTime.value=matchMap.value=""};

@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>7X ESPORTS | Admin</title><link rel="stylesheet" href="style.css"></head>
+<body><header><a class="brand" href="index.html"><strong>7X</strong> ESPORTS <small>ADMIN PANEL</small></a><a class="btn" href="index.html">VIEW SITE</a></header>
+<main class="admin"><section class="panel" id="loginBox"><span class="eyebrow">ORGANIZER ACCESS</span><h2>ADMIN <i>LOGIN</i></h2><p>Use your Firebase Authentication email/password.</p><form id="loginForm"><input id="email" type="email" required placeholder="Admin email"><input id="password" type="password" required placeholder="Password"><button class="btn red">LOGIN</button></form></section>
+<section id="dash" style="display:none">
+<div class="head"><div><span class="eyebrow">CONTROL CENTER</span><h2>7X <i>ADMIN</i></h2></div><button id="logout" class="btn">Logout</button></div>
+<div class="admin-grid">
+<div class="panel"><h3>Update Team Score</h3><select id="scoreTeam"></select><input id="points" type="number" placeholder="Total points"><input id="kills" type="number" placeholder="Kills"><select id="teamStatus"><option>Ready</option><option>LIVE</option><option>Finished</option></select><button id="saveScore" class="btn red">SAVE SCORE</button></div>
+<div class="panel"><h3>Add Match</h3><input id="matchName" placeholder="Match 1"><input id="matchTime" placeholder="Sunday 7:00 PM"><input id="matchMap" placeholder="Bermuda"><select id="matchMode"><option>Battle Royale</option><option>Clash Squad</option></select><button id="addMatch" class="btn red">PUBLISH MATCH</button></div>
+</div><div class="panel"><h3>Registered Teams</h3><div id="adminTeams"></div></div></section></main>
+<script type="module" src="admin.js"></script></body></html>
